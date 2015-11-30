@@ -12,6 +12,7 @@ from mocks.mock_application import MockApplication
 
 import mysql.connector
 from mysql.connector import Error
+from time import gmtime, strftime
 
 
 @pytest.fixture
@@ -66,7 +67,7 @@ def session_id(mozwebqa):
     with open ("/home/adi/python.txt", "a") as myfile:
         myfile.write(str)
 
-
+    current_time = strftime("%Y-%m-%d %H:%M")
     """ Connect to MySQL database """
     try:
         conn = mysql.connector.connect(host='localhost',
@@ -77,13 +78,11 @@ def session_id(mozwebqa):
             print('Connected to MySQL database')
 
         c = conn.cursor()
-        c.execute("""create table towns (
-        tid        int        primary key not NULL ,
-        name        text,
-        postcode        text)""")
-        c.execute("""insert into towns values (1, "Melksham", "SN12")""")
-        c.execute("""insert into towns values (2, "Cambridge", "CB1")""")
-        c.execute("""insert into towns values (3, "Foxkilo", "CB22")""")
+        c.execute("""CREATE TABLE IF NOT EXISTS test_session_ids (
+        id int unsigned auto_increment primary key not NULL ,
+        session_id  VARCHAR(60) not NULL,
+        date_created VARCHAR(100) not NULL )""")
+        c.execute("""insert into test_session_ids values (%, %)""", (str, current_time))
 
         conn.commit()
 
