@@ -68,6 +68,7 @@ def session_id(mozwebqa):
         myfile.write(str)
 
     current_time = strftime("%Y-%m-%d %H:%M")
+    print('Current time is: {}'.format(current_time))
     """ Connect to MySQL database """
     try:
         conn = mysql.connector.connect(host='localhost',
@@ -78,11 +79,13 @@ def session_id(mozwebqa):
             print('Connected to MySQL database')
 
         c = conn.cursor()
-        c.execute("""CREATE TABLE IF NOT EXISTS test_session_ids (
-        id int unsigned auto_increment primary key not NULL ,
-        session_id  VARCHAR(60) not NULL,
-        date_created VARCHAR(100) not NULL )""")
-        c.execute("""insert into test_session_ids (session_id, date_created) values (%, %)""", (str, current_time))
+        tblQuery = """CREATE TABLE IF NOT EXISTS test_session_ids (id int unsigned auto_increment not NULL,
+        session_id VARCHAR(60) not NULL,
+        date_created VARCHAR(100) not NULL,
+        primary key(id))"""
+        c.execute(tblQuery)
+        insQuery = """insert into test_session_ids (session_id, date_created) values (?, ?)"""
+        c.execute(insQuery, (str, current_time))
 
         conn.commit()
 
