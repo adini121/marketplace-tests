@@ -66,7 +66,7 @@ def session_id(mozwebqa):
     with open ("/home/adi/python.txt", "a") as myfile:
         myfile.write(str)
 
-def connect():
+
     """ Connect to MySQL database """
     try:
         conn = mysql.connector.connect(host='localhost',
