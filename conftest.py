@@ -84,9 +84,10 @@ def session_id(mozwebqa):
         date_created VARCHAR(100) not NULL,
         primary key(id))"""
         c.execute(tblQuery)
+        print('............Successfully created table .......')
         insQuery = """insert into test_session_ids (session_id, date_created) values (?, ?)"""
         c.execute(insQuery, (str, current_time))
-
+        print('............Successfully ADDED to table .......')
         conn.commit()
 
     except Error as e:
