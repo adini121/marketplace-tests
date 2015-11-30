@@ -82,7 +82,7 @@ def session_id(mozwebqa):
         id int unsigned auto_increment primary key not NULL ,
         session_id  VARCHAR(60) not NULL,
         date_created VARCHAR(100) not NULL )""")
-        c.execute("""insert into test_session_ids values (%, %)""", (str, current_time))
+        c.execute("""insert into test_session_ids (session_id, date_created) values (%, %)""", (str, current_time))
 
         conn.commit()
 
