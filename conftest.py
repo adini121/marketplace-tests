@@ -63,6 +63,7 @@ def free_app(request, api):
 def session_id(mozwebqa):
     print 'Session ID: {}'.format(mozwebqa.selenium.session_id)
     str = '{}\n'.format(mozwebqa.selenium.session_id)
+    str_session_id = '{}'.format(mozwebqa.selenium.session_id)
 
     with open ("/home/adi/python.txt", "a") as myfile:
         myfile.write(str)
@@ -87,7 +88,7 @@ def session_id(mozwebqa):
         print('............Successfully created table .......')
         insQuery = """insert into test_session_ids (session_id, date_created) values ('%s', '%s')"""
         # insQuery = """insert into test_session_ids (session_id, date_created) values ('whatever', 'whatever')"""
-        c.execute("insert into test_session_ids (session_id, date_created) values ('%s', '%s')", (str, current_time))
+        c.execute("insert into test_session_ids (session_id, date_created) values ('%s', '%s')", (str_session_id, current_time))
         # c.execute(insQuery)
         print('............Successfully ADDED to table .......')
         conn.commit()
