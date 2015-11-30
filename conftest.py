@@ -10,6 +10,9 @@ import pytest
 from mocks.marketplace_api import MarketplaceAPI
 from mocks.mock_application import MockApplication
 
+import mysql.connector
+from mysql.connector import Error
+
 
 @pytest.fixture
 def fxa_test_account(mozwebqa):
@@ -54,3 +57,38 @@ def free_app(request, api):
             api.delete_app(app)
     request.addfinalizer(fin)
     return app
+
+@pytest.fixture(autouse=True)
+def session_id(mozwebqa):
+    print 'Session ID: {}'.format(mozwebqa.selenium.session_id)
+    str = '{}\n'.format(mozwebqa.selenium.session_id)
+
+    with open ("/home/adi/python.txt", "a") as myfile:
+        myfile.write(str)
+
+def connect():
+    """ Connect to MySQL database """
+    try:
+        conn = mysql.connector.connect(host='localhost',
+                                       database='python_mysql',
+                                       user='root',
+                                       password='')
+        if conn.is_connected():
+            print('Connected to MySQL database')
+
+        c = conn.cursor()
+        c.execute("""create table towns (
+        tid        int        primary key not NULL ,
+        name        text,
+        postcode        text)""")
+        c.execute("""insert into towns values (1, "Melksham", "SN12")""")
+        c.execute("""insert into towns values (2, "Cambridge", "CB1")""")
+        c.execute("""insert into towns values (3, "Foxkilo", "CB22")""")
+
+        conn.commit()
+
+    except Error as e:
+        print(e)
+
+    finally:
+        conn.close()
