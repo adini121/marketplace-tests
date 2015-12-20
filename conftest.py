@@ -73,7 +73,7 @@ def session_id(mozwebqa):
     """ Connect to MySQL database """
     try:
         conn = mysql.connector.connect(host='localhost',
-                                       database='python_mysql',
+                                       database='fireplace_sessionIDs',
                                        user='root',
                                        password='')
         if conn.is_connected():
