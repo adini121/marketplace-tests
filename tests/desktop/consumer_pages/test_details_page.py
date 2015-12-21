@@ -81,54 +81,54 @@ class TestDetailsPage(BaseTest):
 
         details_page.wait_notification_box_visible()
         Assert.equal(details_page.notification_message, "Abuse report submitted. Thanks!")
-
-    @pytest.mark.credentials
-    def test_that_reports_abuse_as_signed_in_user(self, mozwebqa):
-
-        home_page = Home(mozwebqa)
-        home_page.go_to_homepage()
-
-        Assert.true(home_page.is_the_current_page)
-        home_page.header.click_sign_in()
-        acct = self.create_new_user(mozwebqa)
-        home_page.login(acct)
-        Assert.true(home_page.header.is_user_logged_in)
-
-        search_term = self._take_first_new_app_name(mozwebqa)
-        details_page = home_page.header.search_and_click_on_app(search_term)
-
-        Assert.true(details_page.is_the_current_page)
-
-        Assert.true(details_page.is_report_abuse_button_visible)
-        report_abuse_box = details_page.click_report_abuse_button()
-
-        Assert.true(report_abuse_box.is_visible)
-
-        report_abuse_box.insert_text('This is an automatically generated report.')
-        Assert.true(report_abuse_box.is_report_button_enabled)
-
-        report_abuse_box.click_report_button()
-
-        details_page.wait_notification_box_visible()
-        Assert.equal(details_page.notification_message, "Abuse report submitted. Thanks!")
-
-    @pytest.mark.nondestructive
-    def test_clicking_on_content_rating(self, mozwebqa):
-
-        home_page = Home(mozwebqa)
-        home_page.go_to_homepage()
-
-        Assert.true(home_page.is_the_current_page)
-
-        home_page.set_region("restofworld")
-        search_term = self._take_first_new_app_name(mozwebqa)
-        details_page = home_page.header.search_and_click_on_app(search_term)
-
-        Assert.true(details_page.is_the_current_page)
-        Assert.true(details_page.is_ratings_image_visible)
-
-        # Click on Content Ratings button
-        content_ratings_page = details_page.click_content_ratings_button()
-
-        Assert.true(content_ratings_page.is_the_current_page)
-        Assert.true(content_ratings_page.is_ratings_table_visible)
+    #
+    # @pytest.mark.credentials
+    # def test_that_reports_abuse_as_signed_in_user(self, mozwebqa):
+    #
+    #     home_page = Home(mozwebqa)
+    #     home_page.go_to_homepage()
+    #
+    #     Assert.true(home_page.is_the_current_page)
+    #     home_page.header.click_sign_in()
+    #     acct = self.create_new_user(mozwebqa)
+    #     home_page.login(acct)
+    #     Assert.true(home_page.header.is_user_logged_in)
+    #
+    #     search_term = self._take_first_new_app_name(mozwebqa)
+    #     details_page = home_page.header.search_and_click_on_app(search_term)
+    #
+    #     Assert.true(details_page.is_the_current_page)
+    #
+    #     Assert.true(details_page.is_report_abuse_button_visible)
+    #     report_abuse_box = details_page.click_report_abuse_button()
+    #
+    #     Assert.true(report_abuse_box.is_visible)
+    #
+    #     report_abuse_box.insert_text('This is an automatically generated report.')
+    #     Assert.true(report_abuse_box.is_report_button_enabled)
+    #
+    #     report_abuse_box.click_report_button()
+    #
+    #     details_page.wait_notification_box_visible()
+    #     Assert.equal(details_page.notification_message, "Abuse report submitted. Thanks!")
+    #
+    # @pytest.mark.nondestructive
+    # def test_clicking_on_content_rating(self, mozwebqa):
+    #
+    #     home_page = Home(mozwebqa)
+    #     home_page.go_to_homepage()
+    #
+    #     Assert.true(home_page.is_the_current_page)
+    #
+    #     home_page.set_region("restofworld")
+    #     search_term = self._take_first_new_app_name(mozwebqa)
+    #     details_page = home_page.header.search_and_click_on_app(search_term)
+    #
+    #     Assert.true(details_page.is_the_current_page)
+    #     Assert.true(details_page.is_ratings_image_visible)
+    #
+    #     # Click on Content Ratings button
+    #     content_ratings_page = details_page.click_content_ratings_button()
+    #
+    #     Assert.true(content_ratings_page.is_the_current_page)
+    #     Assert.true(content_ratings_page.is_ratings_table_visible)

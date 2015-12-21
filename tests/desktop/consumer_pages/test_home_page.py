@@ -90,63 +90,63 @@ class TestConsumerPage(BaseTest):
         Assert.true(home_page.apps_are_visible)
         Assert.true(home_page.elements_count > 0)
 
-    @pytest.mark.sanity
-    @pytest.mark.nondestructive
-    def test_settings_dropdown_menu(self, mozwebqa):
-        home_page = Home(mozwebqa)
-        home_page.go_to_homepage()
-
-        home_page.header.click_sign_in()
-        acct = self.get_user(mozwebqa)
-        home_page.login(acct)
-
-        # Verify account settings menu
-        user_settings = home_page.header.click_edit_account_settings()
-        Assert.true(user_settings.is_the_current_page)
-        Assert.true(user_settings.is_email_visible)
-        Assert.true(user_settings.is_display_name_visible)
-        Assert.true(user_settings.is_region_field_visible)
-        Assert.true(user_settings.is_save_button_visible)
-        Assert.true(user_settings.is_sign_out_button_visible)
-
-        # Verify My Apps menu
-        home_page.go_to_homepage()
-        my_apps_page = home_page.header.click_my_apps()
-        Assert.true(my_apps_page.is_the_current_page)
-        my_apps_page.click_expand_button()
-        for i in range(len(my_apps_page.apps)):
-            Assert.true(my_apps_page.apps[i].are_screenshots_visible)
-
-    @pytest.mark.sanity
-    @pytest.mark.credentials
-    @pytest.mark.nondestructive
-    def test_footer_has_expected_items(self, mozwebqa):
-        home_page = Home(mozwebqa)
-        home_page.go_to_homepage()
-
-        home_page.header.click_sign_in()
-
-        acct = self.get_user(mozwebqa)
-        home_page.login(acct)
-
-        # Inspect footer elements
-        for link in home_page.footer.footer_links_list:
-            link = link.get('locator')
-            Assert.true(home_page.footer.is_element_visible(*link))
-
-    @pytest.mark.sanity
-    @pytest.mark.nondestructive
-    def test_footer_section_links(self, mozwebqa):
-        home_page = Home(mozwebqa)
-        home_page.go_to_homepage()
-
-        home_page.header.click_sign_in()
-        acct = self.get_user(mozwebqa)
-        home_page.login(acct)
-
-        bad_links = []
-        for link in Home.FooterRegion.footer_links_list:
-            url = home_page.link_destination(link.get('locator'))
-            if not url.endswith(link.get('url_suffix')):
-                bad_links.append('%s does not end with %s' % (url, link.get('url_suffix')))
-        Assert.equal(0, len(bad_links), '%s bad links found: ' % len(bad_links) + ', '.join(bad_links))
+    # @pytest.mark.sanity
+    # @pytest.mark.nondestructive
+    # def test_settings_dropdown_menu(self, mozwebqa):
+    #     home_page = Home(mozwebqa)
+    #     home_page.go_to_homepage()
+    #
+    #     home_page.header.click_sign_in()
+    #     acct = self.get_user(mozwebqa)
+    #     home_page.login(acct)
+    #
+    #     # Verify account settings menu
+    #     user_settings = home_page.header.click_edit_account_settings()
+    #     Assert.true(user_settings.is_the_current_page)
+    #     Assert.true(user_settings.is_email_visible)
+    #     Assert.true(user_settings.is_display_name_visible)
+    #     Assert.true(user_settings.is_region_field_visible)
+    #     Assert.true(user_settings.is_save_button_visible)
+    #     Assert.true(user_settings.is_sign_out_button_visible)
+    #
+    #     # Verify My Apps menu
+    #     home_page.go_to_homepage()
+    #     my_apps_page = home_page.header.click_my_apps()
+    #     Assert.true(my_apps_page.is_the_current_page)
+    #     my_apps_page.click_expand_button()
+    #     for i in range(len(my_apps_page.apps)):
+    #         Assert.true(my_apps_page.apps[i].are_screenshots_visible)
+    #
+    # @pytest.mark.sanity
+    # @pytest.mark.credentials
+    # @pytest.mark.nondestructive
+    # def test_footer_has_expected_items(self, mozwebqa):
+    #     home_page = Home(mozwebqa)
+    #     home_page.go_to_homepage()
+    #
+    #     home_page.header.click_sign_in()
+    #
+    #     acct = self.get_user(mozwebqa)
+    #     home_page.login(acct)
+    #
+    #     # Inspect footer elements
+    #     for link in home_page.footer.footer_links_list:
+    #         link = link.get('locator')
+    #         Assert.true(home_page.footer.is_element_visible(*link))
+    #
+    # @pytest.mark.sanity
+    # @pytest.mark.nondestructive
+    # def test_footer_section_links(self, mozwebqa):
+    #     home_page = Home(mozwebqa)
+    #     home_page.go_to_homepage()
+    #
+    #     home_page.header.click_sign_in()
+    #     acct = self.get_user(mozwebqa)
+    #     home_page.login(acct)
+    #
+    #     bad_links = []
+    #     for link in Home.FooterRegion.footer_links_list:
+    #         url = home_page.link_destination(link.get('locator'))
+    #         if not url.endswith(link.get('url_suffix')):
+    #             bad_links.append('%s does not end with %s' % (url, link.get('url_suffix')))
+    #     Assert.equal(0, len(bad_links), '%s bad links found: ' % len(bad_links) + ', '.join(bad_links))
