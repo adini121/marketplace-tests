@@ -9,8 +9,7 @@ import pytest
 from mocks.marketplace_api import MarketplaceAPI
 from mocks.mock_application import MockApplication
 
-import mysql.connector
-from mysql.connector import Error
+import MySQLdb
 from time import gmtime, strftime
 
 @pytest.fixture(scope='function')
@@ -54,12 +53,12 @@ def session_id(mozwebqa):
     print('Current time is: {}'.format(current_time))
     """ Connect to MySQL database """
     try:
-        conn = mysql.connector.connect(host='localhost',
-                                       database='fireplace_sessionIDs',
-                                       user='root',
-                                       password='')
-        if conn.is_connected():
-            print('Connected to MySQL database')
+        conn = MySQLdb.connect(host='localhost',
+                               user='root',
+                               passwd='',
+                               db='fireplace_sessionIDs')
+        # if conn.is_connected():
+        #         print('Connected to MySQL database')
 
         c = conn.cursor()
         tblQuery = """CREATE TABLE IF NOT EXISTS test_session_ids (id int unsigned auto_increment not NULL,
@@ -70,14 +69,13 @@ def session_id(mozwebqa):
         print('............Successfully created table .......')
         insQuery = """insert into test_session_ids (session_id, date_created) values ('%s', '%s')"""
         # insQuery = """insert into test_session_ids (session_id, date_created) values ('whatever', 'whatever')"""
+        c = conn.cursor()
         c.execute("insert into test_session_ids (session_id, date_created) values (%s, %s)", (str_session_id, current_time))
         # c.execute(insQuery)
         print('............Successfully ADDED to table .......')
         conn.commit()
-
-    except Error as e:
-        print(e)
+    except:
+        print ('UNABLE TO PERFORM DATABASE OPERATION')
 
     finally:
         conn.close()
-
