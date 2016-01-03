@@ -46,40 +46,6 @@ class TestSearching(BaseTest):
             if search_term == search_page.results[i].name:
                 Assert.equal(search_term, search_page.results[i].name)
 
-    @pytest.mark.skipif('True', reason='Sort not available yet.')
-    @pytest.mark.nondestructive
-    @pytest.mark.parametrize(('sort_type'), ["Relevancy", "Rating"])
-    def test_that_verifies_the_sort_region_from_search_results(self, mozwebqa, sort_type):
-
-        home_page = Home(mozwebqa)
-        home_page.go_to_homepage()
-
-        Assert.true(home_page.is_the_current_page)
-        search_page = home_page.header.search(self.sort_search_term)
-        Assert.equal("Relevancy", search_page.sorted_by)
-        Assert.true(search_page.is_sorter_header_visible)
-
-        # Test that the filters are applicable on the results
-        search_page.sort_by(sort_type)
-        Assert.equal(sort_type, search_page.sorted_by)
-        Assert.greater(len(search_page.results), 0)
-
-    @pytest.mark.skipif('True', reason='Search suggestions not available yet.')
-    @pytest.mark.nondestructive
-    def test_that_verifies_the_search_suggestions_list_under_the_search_field(self, mozwebqa):
-
-        home_page = self._take_random_new_app_name(mozwebqa)
-
-        Assert.true(home_page.is_the_current_page)
-
-        search_term = self._take_first_free_app_name(mozwebqa)
-
-        home_page.header.type_search_term_in_search_field(search_term)
-        Assert.true(home_page.header.is_search_suggestion_list_visible)
-        Assert.greater_equal(len(home_page.header.search_suggestions), 0)
-
-        for suggestion in home_page.header.search_suggestions:
-            Assert.contains(search_term, suggestion.app_name)
 
     @pytest.mark.nondestructive
     def test_that_checks_search_with_foreign_characters(self, mozwebqa):
