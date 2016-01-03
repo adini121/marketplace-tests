@@ -72,7 +72,7 @@ def session_id(mozwebqa):
         conn = MySQLdb.connect(host='localhost',
                                user='root',
                                passwd='',
-                               db='amo_sessionIDs')
+                               db='fireplace_sessionIDs')
         # if conn.is_connected():
         #         print('Connected to MySQL database')
 
